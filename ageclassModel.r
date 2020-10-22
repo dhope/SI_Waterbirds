@@ -124,7 +124,52 @@ newdat$y_wesa<-logit2prob(mm%*%fixef(lme.wesa) )
 fullsi <- sidney %>% mutate(.fitted = predict(lme.wesa, newdata = ., type = 'response', allow.new.levels=T),
 	.fitted_lesa = predict(lme.LESA, newdata = ., type = 'response', allow.new.levels=T))
 
+require(lubridate)
+theme_set(cowplot::theme_cowplot(font_size=12,font_family = "sans")) 
+s1_fig_propAJ_wesa <- 
+  ggplot(newdat, aes(mdy("01-01-2013") + DOY, p.WESA.juv.pred, group = Year) ) + 
+  # geom_density(data = sidney, aes(x=DOY,y=Grand.Total))+
+  geom_line(aes(y=p.WESA.juv.pred_noran), linetype=2, alpha=1) + 
+  geom_line() +
+  geom_point(data = fullsi, aes(y = .fitted  ), shape = 19, alpha = 0.2) +
+  geom_point(data = sidney, aes(y = p.WESA.juv.obs  )) +
+  
 
+  # geom_vline(xintercept = 213) +
+  facet_wrap(~Year, nrow = 9) +
+  labs( title = 'Western Sandpipers',
+        x = 'Date', y = 'Proportion of Juvenile Western Sandpiper in Counts')  +
+  guides(x = guide_axis(angle=45))
+
+ggsave("output/S1_WESA_AJ.pdf",s1_fig_propAJ_wesa , width = 12, height = 8, units = 'in')
+ggsave("output/A1_1_WESA_AJ.png",s1_fig_propAJ_wesa  , 
+       width = 16, height = 32, units = 'cm', dpi = 600)
+ggsave("output/A1_1_WESA_AJ.tiff",s1_fig_propAJ_wesa , 
+       width = 16, height = 32, units = 'cm', dpi = 300)
+
+
+# bootImport <- read_rds("output/fig2dat_w_boot.rds")
+# newdat <- bootImport$newdat
+# fullsi <- bootImport$fullsi
+
+s2_fig_propAJ_lesa <- 
+  ggplot(newdat, aes(mdy("01-01-2013") + DOY, p.LESA.juv.pred, group = Year) ) + 
+  geom_line(aes(y=p.LESA.juv.pred_noRan),alpha= 1, linetype=2) + #geom_vline(xintercept = 213)+
+  geom_line() +
+  geom_point(data = fullsi, aes(y = .fitted_lesa  ), shape = 19, alpha = 0.2) +
+  geom_point(data = sidney, aes(y = p.LESA.juv.obs  )) +
+ 
+  facet_wrap(~Year, nrow = 9) +
+  labs( title = 'Least Sandpipers',
+        x = 'Date', y = 'Proportion of Juvenile Least Sandpiper in Counts')+
+  guides(x = guide_axis(angle=45))
+
+ggsave("output/S2_LESA_AJ.pdf",s2_fig_propAJ_lesa + cowplot::theme_cowplot(), 
+       width = 12, height = 8, units = 'in')
+ggsave("output/A1_2_LESA_AJ.png",s2_fig_propAJ_lesa , 
+       width = 16, height = 32, units = 'cm', dpi = 600)
+ggsave("output/A1_2_LESA_AJ.tiff",s2_fig_propAJ_lesa , 
+       width = 16, height = 32, units = 'cm', dpi = 600)
 
 ## Calculate Bootstrapped CI -----
 #we have to define a function that will be applied to the nsim simulations

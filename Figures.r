@@ -38,10 +38,10 @@ LESA_AJ <-
 #   nrow =2)+
 #   draw_label("Proportion of juveniles", x=  0.02, y=0.55, vjust= 1.5, angle=90)
 
-Figure2 <- WESA_AJ /LESA_AJ
+# Figure2a <- WESA_AJ /LESA_AJ
 
 # ggsave("output/Figure2.png", Figure2, width = 7.5, height = 15, units = 'cm', dpi = 300)
-ggsave("output/Figure2_Final.tiff", Figure2, width = 15, height = 30, units = 'cm', dpi = 600)
+# ggsave("output/Figure2_Final.tiff", Figure2, width = 15, height = 30, units = 'cm', dpi = 600)
 
 # Figure 3 ------
 # source("generatePredictions.r")
@@ -134,18 +134,18 @@ lesaplot_average <-
 
 
 
-Figure3 <-
-  wesaplot_average / lesaplot_average + plot_layout()
+# Figure2b <-
+#   wesaplot_average / lesaplot_average + plot_layout()
   # cowplot::plot_grid(wesaplot_average, lesaplot_average, labels = "AUTO", nrow=2)
 # ggsave("output/Figure3.pdf", Figure3, width = 8, height = 6, units = "in", dpi = 300)
-ggsave("output/Figure3.png", Figure3, 
-       width = 1000/300, height = 2000/300, units = 'in',
-       # width = 7.5, height = 15, units = "cm",
-       dpi = 300)
-ggsave("output/Figure3_final.tiff", Figure3, 
-       width = 15, height = 30, units = 'cm',
-       # width = 7.5, height = 15, units = "cm",
-       dpi = 600)
+# ggsave("output/Figure3.png", Figure3, 
+#        width = 1000/300, height = 2000/300, units = 'in',
+#        # width = 7.5, height = 15, units = "cm",
+#        dpi = 300)
+# ggsave("output/Figure3_final.tiff", Figure3, 
+#        width = 15, height = 30, units = 'cm',
+#        # width = 7.5, height = 15, units = "cm",
+#        dpi = 600)
 rm(wesaplot_average, lesaplot_average, Figure3)
 
 
@@ -198,27 +198,27 @@ gam_lesa <- ggplot(sum_pred_gam, aes(Year_all, y = exp(.pred_lesa))) +
        y =  expression(paste("Average Daily Count (",log[10] + 1, " scale)"))) +
   scale_y_continuous(breaks = c(0, 1, 10, 50, 100, 250, 500, 1000, 2000, 5000))
 
-Figure4 <- gam_wesa / gam_lesa
+# Figure2c <- gam_wesa / gam_lesa
   
   #plot_grid(gam_wesa, gam_lesa, nrow=2, labels = "AUTO")
-ggsave("output/Figure4.pdf",Figure4, width = 8, height = 8)
-ggsave("output/Figure4.png",Figure4,
-       width = 1000/300, height = 2000/300, units = 'in',
-       # width = 7.5, height = 15, units = "cm",
-       dpi = 300)
-ggsave("output/Figure4_final.tiff",Figure4,
-       width = 1000/300, height = 2000/300, units = 'in',
-       # width = 7.5, height = 15, units = "cm",
-       dpi = 600)
+# ggsave("output/Figure4.pdf",Figure4, width = 8, height = 8)
+# ggsave("output/Figure4.png",Figure4,
+#        width = 1000/300, height = 2000/300, units = 'in',
+#        # width = 7.5, height = 15, units = "cm",
+#        dpi = 300)
+# ggsave("output/Figure4_final.tiff",Figure4,
+#        width = 1000/300, height = 2000/300, units = 'in',
+#        # width = 7.5, height = 15, units = "cm",
+#        dpi = 600)
 
-rm(Figure4, gam_wesa, gam_lesa)
+# rm(Figure4, gam_wesa, gam_lesa)
 
 
 FigRep <- (WESA_AJ  | wesaplot_average |  gam_wesa) /
   (LESA_AJ | lesaplot_average | gam_lesa)  
 FigRep
-ggsave("output/Fig234.tiff",FigRep, width = 30, height = 20, units = 'cm', dpi = 600)
-ggsave("output/Fig234.png",FigRep, width = 30, height = 20, units = 'cm', dpi = 600)
+ggsave("output/Fig2_final.tiff",FigRep, width = 30, height = 20, units = 'cm', dpi = 600)
+ggsave("output/Fig2_final.png",FigRep, width = 30, height = 20, units = 'cm', dpi = 600)
 # Figure 5 - Climate Correlates -----------------------------------------------
 
 require(lubridate)
@@ -262,19 +262,20 @@ climate_plots <- climate_covariates %>% gather("model_name", "Estimate", -Year, 
   geom_point() + labs(x="", y = "", title = .y) +
     # scale_colour_brewer(type = 'qual', palette = 'Set1') +
     scale_colour_manual(values = cols_months) +
-    theme(legend.position = 'none', plot.margin = unit(c(0,0,0,0), "cm"), 
+    theme(legend.position = 'none', plot.margin = unit(c(0,0,0,0), "cm"), title = 
+            element_text(family = 'sans', size = 10),
           axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
           strip.text = element_text(size = 7, colour = "black", angle = 90)) +
     scale_x_continuous(breaks = c(1990,2000,2010),minor_breaks = c(1995,2005,2015)) + 
   geom_line())) 
 
 
-Appendix_X <- 
-plot_grid(plotlist = climate_plots$plot_out[c(4,2,1,3)], ncol=4)
+Appendix_A2_1 <- 
+plot_grid(plotlist = climate_plots$plot_out[c(4,2,1,3)], ncol=4, label_size = 10)
 
-ggsave("output/AppendixX.pdf",Appendix_X, width = 16, height = 12, units = 'in', dpi = 300)
-ggsave("output/AppendixX.png",Appendix_X, width = 16, height = 12, units = 'cm', dpi = 300)
-ggsave("output/AppendixX.png",Appendix_X, width = 16, height = 12, units = 'cm', dpi = 300)
+# ggsave("output/AppendixFigA2_1.pdf",Appendix_A2_1, width = 16, height = 12, units = 'in', dpi = 300)
+ggsave("output/AppendixFigA2_1.png",Appendix_A2_1, width = 16, height = 12, units = 'cm', dpi = 600)
+ggsave("output/AppendixFigA2_1.tiff",Appendix_A2_1, width = 16, height = 12, units = 'cm', dpi = 600)
 rm(climate_plots, Appendix_X)
 
 # Figure 6 - Effects plot ------------------------------------------------------------
@@ -291,7 +292,7 @@ coefficients_by_id_w_aic <- read_rds("output/coefficients_modmsonly.rds") %>%
   left_join(cleanNames, by = c("term" = "varname")) %>% 
   mutate(Species = factor(Species,levels = sort(unique(Species),decreasing = T))) 
                         
-f5dat <- coefficients_by_id_w_aic %>% 
+f3dat <- coefficients_by_id_w_aic %>% 
   filter(non_id==0.8& effect == "fixed" & 
            (dAICc < 6 | model_name == "a" | (!grepl("global", model_name) & sign(conf.low)==sign(conf.high))) &
            model_name != "global" & 
@@ -302,8 +303,8 @@ f5dat <- coefficients_by_id_w_aic %>%
          modtyep = ifelse(glob, "Full Hypothesis", "Single Variable")
   ) %>% mutate(hypothesis=ifelse(is.na(hypothesis), "Age", hypothesis))
 
-Figure5 <- 
-ggplot(f5dat %>% filter(model_name != "u*v"),
+Figure3 <- 
+ggplot(f3dat %>% filter(model_name != "u*v"),
        aes(cleanName, estimate ,size = w, colour = modtyep)) + 
   geom_pointrange( position=position_dodge(0.5),
                    size = 0.5,
@@ -320,7 +321,7 @@ ggplot(f5dat %>% filter(model_name != "u*v"),
   #                 # fatten = 0.9,
   #                 size = 0.5, 
   #                 position=position_dodge(0.6)) +
-  geom_pointrange(data = f5dat %>% filter(model_name == "u*v"),
+  geom_pointrange(data = f3dat %>% filter(model_name == "u*v"),
     # position=position_nudge(0.3),
                    size = 0.5,shape = 1,
                    aes(ymin=conf.low, ymax=conf.high,
@@ -345,7 +346,7 @@ Figure5+
         legend.background = element_rect(fill=NA),
         legend.box.background = element_rect(fill = 'grey')) 
 # ggsave("output/Figure5.pdf", Figure5 + theme(legend.position = 'none'), width = 12, height = 8, units ='in', dpi = 300)
-ggsave("output/2020_Figure5.png", Figure5+ 
+ggsave("output/2020_Figure3_final.png", Figure5+ 
          theme_light(base_size = 12,base_family = 'sans' ) +
          scale_size_manual(values = c(0.1)) +
          theme(legend.position = c(.75,.18),
@@ -360,7 +361,7 @@ ggsave("output/2020_Figure5.png", Figure5+
        # width = 7.5, height = 15, units = "cm",
        dpi = 300)
        # width = 16, height = 12, units ='cm', dpi = 300)
-ggsave("output/2020_Figure5_final.tiff",Figure5+ 
+ggsave("output/2020_Figure3_final.tiff",Figure5+ 
          theme_light(base_size = 12,base_family = 'sans' ) +
          scale_size_manual(values = c(0.1)) +
          theme(legend.position = c(.75,.175),
@@ -389,7 +390,7 @@ wesaplot_average_yrs <-
   ggplot(doy.models, aes(DOY + mdy("1-1-2013"), pred.wesa.ad)) +
   geom_line(data = yrs.doys[(yrs.doys$DOY < quant_a[[2]]), ], linetype = "dashed",
             alpha = 1, aes(group = Year, 
-                                                                                                   y= pred.wesa.ad_rs)) +
+                           y= pred.wesa.ad_rs)) +
   geom_line(data = yrs.doys[(yrs.doys$DOY < quant_a[[2]]), ], 
             linetype = "solid",alpha = 1, aes(group = Year)) +
   geom_line(data = yrs.doys[(yrs.doys$DOY > quant_j[[1]]), ], 
@@ -416,14 +417,18 @@ lesaplot_average_yrs <-
   # geom_ribbon(data =pred.doys[pred.doys$DOY > quant_j[[1]],],
   #             aes(ymax = exp(pred.wesa.juv + 2*se.j.w), ymin = exp(pred.wesa.juv - 2*se.j.w), y=NULL),
   #             alpha = 0.2) +
-  geom_line(data = yrs.doys[(yrs.doys$DOY < quant_a_lesa[[2]]), ], linetype = "dashed",alpha = 0.5,
+  geom_line(data = yrs.doys[(yrs.doys$DOY < quant_a_lesa[[2]]), ], linetype = "dashed",
+            alpha = 1,
             aes(group = Year, 
                 y= pred.lesa.ad_rs)) +
-  geom_line(data = yrs.doys[(yrs.doys$DOY < quant_a_lesa[[2]]), ], linetype = "solid",alpha = 0.5, aes(group = Year)) +
-  geom_line(data = yrs.doys[(yrs.doys$DOY > quant_j_lesa[[1]]), ], linetype = "dashed",alpha = 0.5, aes(group = Year,
-                                                                                                  y = pred.lesa.juv_rs)) +
-  geom_line(data = yrs.doys[(yrs.doys$DOY > quant_j_lesa[[1]]), ], linetype = "solid",alpha = 0.5, aes(group = Year,
-                                                                                                   y = pred.lesa.juv)) +
+  geom_line(data = yrs.doys[(yrs.doys$DOY < quant_a_lesa[[2]]), ], linetype = "solid",
+            alpha = 1, aes(group = Year)) +
+  geom_line(data = yrs.doys[(yrs.doys$DOY > quant_j_lesa[[1]]), ], linetype = "dashed",
+            alpha = 1, aes(group = Year,
+                             y = pred.lesa.juv_rs)) +
+  geom_line(data = yrs.doys[(yrs.doys$DOY > quant_j_lesa[[1]]), ], linetype = "solid"
+            ,alpha = 1, aes(group = Year,
+                              y = pred.lesa.juv)) +
   # geom_line(colour = "dodgerblue1", data = pred.doys[pred.doys$DOY < quant_a[[2]],],aes(y=exp(pred.wesa.ad)), size = 1) +
   # geom_line(colour = "red4", aes(y = pred.wesa.juv), data = doy.models[(doy.models$DOY > quant_j[[1]]), ], size = 1) +
   cowplot::theme_cowplot() +
@@ -433,8 +438,8 @@ lesaplot_average_yrs <-
   labs(title = "Least Sandpipers", y = expression(paste("Count (",log[10] + 1, " scale)")), x = "") +
   facet_wrap(~Year, ncol = 3)+
   
-  geom_point(data = sidney_adults, aes(y = LESA.ad.est), colour = "dodgerblue1", alpha = 0.5, shape =1) +
-  geom_point(data = sidney_juveniles, aes(y = LESA.juv.est), colour = "red4", alpha = 0.5, shape = 2) +
+  geom_point(data = sidney_adults, aes(y = LESA.ad.est), colour = "dodgerblue1", alpha = 0.8, shape =1) +
+  geom_point(data = sidney_juveniles, aes(y = LESA.juv.est), colour = "red4", alpha = 0.8, shape = 2) +
   theme(axis.text.x = element_text(angle = 45, hjust = .75, vjust = 1))
 
 
@@ -442,9 +447,14 @@ lesaplot_average_yrs <-
 
 # ggsave("output/App4.pdf", wesaplot_average_yrs,
 #        width = 8, height = 6, units = "in", dpi = 300)
-ggsave("output/App4_1.png", wesaplot_average_yrs, 
-       width = 20, height = 45, units = "cm", dpi = 300)
+ggsave("output/AppA3_1_final.png", wesaplot_average_yrs, 
+       width = 20, height = 45, units = "cm", dpi = 600)
+ggsave("output/AppA3_1_final.tiff", wesaplot_average_yrs, 
+       width = 20, height = 45, units = "cm", dpi = 600)
 # ggsave("output/App5.pdf", lesaplot_average_yrs, width = 8, height = 6, units = "in", dpi = 300)
-ggsave("output/App4_2.png", lesaplot_average_yrs, 
+ggsave("output/AppA3_2_final.png", lesaplot_average_yrs, 
        width = 20, height = 45, 
-       units = "cm", dpi = 300)
+       units = "cm", dpi = 600)
+ggsave("output/AppA3_2_final.tiff", lesaplot_average_yrs, 
+       width = 20, height = 45, 
+       units = "cm", dpi = 600)

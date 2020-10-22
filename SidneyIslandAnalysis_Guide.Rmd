@@ -113,36 +113,18 @@ source("generatePredictions.r")
 Sourcing the following file, should generate all the figures:
 
 ```{r figures}
-source("Figures.r")   
+source("Figures.r") 
+source("ExtraFigures.R.r") 
+
 ```
 
-```{}
+## Other relavent files
+
+To recreate the non-id analysis mentioned in the manuscript run the following file. It will take a while and may be easier to run in chunks than source:
+
+```{r}
+source("non_id_analysis.R")
 ```
 
-```{r, fig.cap="Figure 2"}
-Figure2
-```
 
-```{r, fig.cap="Figure 3"}
-Figure3
-```
-
-```{r, fig.cap="Figure 4"}
-Figure4
-```
-
-```{r, fig.cap="Figure 5"}
-Figure5
-```
-
-```{r, fig.cap="Figure 6"}
-Figure6
-```
-
-```{r, fig.cap="Figure 7"}
-Figure7  
-```
-
-```{r figures}
-source("ExtraFigures.R")   
-```
+To examine how we ended up with the selected number of knots in the GAM models see `gam_testing.r`.
