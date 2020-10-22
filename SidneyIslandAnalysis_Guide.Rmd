@@ -1,0 +1,148 @@
+---
+title: "Sidney Island Analysis"
+author: "David Hope"
+date: "December 4, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=T)
+```
+
+## Outline
+
+This page should provide a guide to follow the analysis presented in *Correlates of annual stopover counts in two species of Arctic-breeding shorebirds: the roles of local, breeding, and climactic drivers.*. You will require the data files included in the \*\*data\_\* folder and you may have to download your own climate indices from the links provided.
+
+## Packages
+
+The analysis requires the following packages:
+
+```{r packages, include=F}
+require(tidyverse)
+require(cowplot) # Not required but I used it for the plots
+require(lme4) # Only for the ageclassModel.r
+require(glmmTMB)
+library(mgcv)
+library(patchwork)
+# require(splines)
+require(knitr)
+
+library(RNetCDF)
+library(gstat)
+library(raster)
+library(rgdal)
+```
+
+These packages are required for specific functions, but don't need to load them.
+
+```{r unloaded-packages, eval=F}
+require(DHARMa)
+
+
+require(car)
+require(effects)
+require(multcomp)
+require(broom.mixed)
+require(dotwhisker)
+require(bbmle)
+require(sjPlot)
+```
+
+## Functions and models
+
+Many of the functions used in the analysis are built in separate scripts found in the `R` folder. You should load them before running the analysis.The models I run are described in `R/SI_Climate_Models.r` and the analysis is implemented as a function in `R/RunClimateModels.r`
+
+```{r load-functions, cache=F}
+source('R/miscFunctions.r')
+source("R/SI_Climate_Models.r")
+source("R/RunClimateModels.r")
+source("R/CV.r")
+```
+
+## 1. Models of Age Class
+
+To import the raw data and run the seasonal patterns in age classes run the following:
+
+```{r age-class, eval=F}
+source("ageclassModel.r")
+```
+
+It will take some time as CI are generated from bootstrapping.
+
+## 2. Run models of WESA and LESA abundances within and between years
+
+To run the models using the various potential distributions just source the `runModels.r` file. However, if you have done this previously, the model results are stored in `output/model_dist_comparisons.rds`.
+
+```{r run-models, eval=F, include=F}
+
+source("runModels.r")
+
+```
+
+## 3. Analyse the model outputs in AIC and run cross validation.
+
+This will take a while to run together so you can either run the sections from `analyseModels.r` or run the chunks individualy as follows:
+
+```{r read-model-analysis, cache = F}
+knitr::read_chunk("analyseModels.r")
+```
+
+To run the AIC analysis including tables in Appendix 2
+
+```{r AIC}
+```
+
+To run the cross validations that include Tables 1 and 2
+
+```{r CV, eval=F}
+```
+
+To check top model assumptions
+
+```{r Assumptions, eval=F}
+```
+
+## 4. Generate the plots
+
+First you need to generate the model predictions across the study period:
+
+```{r predictions}
+source("generatePredictions.r")
+```
+
+Sourcing the following file, should generate all the figures:
+
+```{r figures}
+source("Figures.r")   
+```
+
+```{}
+```
+
+```{r, fig.cap="Figure 2"}
+Figure2
+```
+
+```{r, fig.cap="Figure 3"}
+Figure3
+```
+
+```{r, fig.cap="Figure 4"}
+Figure4
+```
+
+```{r, fig.cap="Figure 5"}
+Figure5
+```
+
+```{r, fig.cap="Figure 6"}
+Figure6
+```
+
+```{r, fig.cap="Figure 7"}
+Figure7  
+```
+
+```{r figures}
+source("ExtraFigures.R")   
+```
