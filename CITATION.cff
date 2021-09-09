@@ -6,8 +6,12 @@ authors:
   orcid: "https://orcid.org/0000-0002-2140-4261"
 - family-names: "Drake"
   given-names: "Anna"
+- family-names: "Shervill"
+  given-names: "Daniel"
+- family-names: "Lemon"
+  given-names: "Moira J. F."
 - family-names: "Drever"
-  given-names: "Mark"
+  given-names: "Mark C."
   orcid: "https://orcid.org/0000-0001-5303-9230"
 title: "SI_Waterbirds"
 version: 1.0.0
